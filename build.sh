@@ -7,7 +7,8 @@ cd "$(dirname "$0")"
 
 APP=build/MemoryLens.app
 rm -rf "$APP"
-mkdir -p "$APP/Contents/MacOS"
+mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
+cp Resources/AppIcon.icns "$APP/Contents/Resources/"
 
 swiftc -O -swift-version 5 -parse-as-library \
   -target arm64-apple-macos26.0 \
@@ -19,6 +20,7 @@ cat > "$APP/Contents/Info.plist" <<'PLIST'
 <plist version="1.0">
 <dict>
   <key>CFBundleExecutable</key><string>MemoryLens</string>
+  <key>CFBundleIconFile</key><string>AppIcon</string>
   <key>CFBundleIdentifier</key><string>local.foundry.MemoryLens</string>
   <key>CFBundleName</key><string>MemoryLens</string>
   <key>CFBundlePackageType</key><string>APPL</string>
