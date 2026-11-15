@@ -178,7 +178,7 @@ struct BreakdownCard: View {
 
     var body: some View {
         let s = system
-        Grid(horizontalSpacing: 28, verticalSpacing: 8) {
+        Grid(horizontalSpacing: 16, verticalSpacing: 10) {
             GridRow {
                 StatCell(title: "Memory Used", bytes: s.used, color: .primary)
                 StatCell(title: "App Memory", bytes: s.app, color: .appMem)
@@ -208,15 +208,18 @@ struct StatCell: View {
     let color: Color
 
     var body: some View {
-        HStack(spacing: 6) {
-            Circle().fill(color).frame(width: 6, height: 6)
-            Text(title).font(.caption).foregroundStyle(.secondary).lineLimit(1)
-            Spacer(minLength: 4)
+        // Title above the value, so English titles get the full width of the cell
+        VStack(alignment: .leading, spacing: 2) {
+            HStack(spacing: 5) {
+                Circle().fill(color).frame(width: 6, height: 6)
+                Text(title).font(.caption).foregroundStyle(.secondary).lineLimit(1)
+            }
             Text(formatBytes(bytes))
-                .font(.system(.callout, design: .rounded).weight(.medium))
+                .font(.system(.body, design: .rounded).weight(.medium))
                 .monospacedDigit()
+                .padding(.leading, 11)
         }
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
