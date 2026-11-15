@@ -1,7 +1,7 @@
 #!/bin/zsh
 # swiftc で直接ビルドして build/MemoryLens.app を作る
 #   ./build.sh            ビルドのみ
-#   ./build.sh --install  ビルドして /Applications に入れ、起動し直す
+#   ./build.sh --install  ビルドして ~/Applications に入れ、起動し直す
 set -euo pipefail
 cd "$(dirname "$0")"
 
@@ -35,8 +35,9 @@ codesign --force --sign - "$APP"
 echo "built: $APP"
 
 if [[ "${1:-}" == "--install" ]]; then
-  DEST=/Applications/MemoryLens.app
+  DEST=~/Applications/MemoryLens.app
   pkill -x MemoryLens || true
+  mkdir -p ~/Applications
   rm -rf "$DEST"
   ditto "$APP" "$DEST"
   open "$DEST"
