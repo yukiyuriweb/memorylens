@@ -6,9 +6,9 @@ enum PressureLevel: Int32 {
 
     var label: String {
         switch self {
-        case .normal: "正常"
-        case .warning: "警告"
-        case .critical: "危険"
+        case .normal: String(localized: "Normal")
+        case .warning: String(localized: "Warning")
+        case .critical: String(localized: "Critical")
         }
     }
 

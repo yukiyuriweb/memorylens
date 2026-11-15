@@ -9,6 +9,8 @@ APP=build/MemoryLens.app
 rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 cp Resources/AppIcon.icns "$APP/Contents/Resources/"
+# UI strings are English in code; other languages live in Localization/*.lproj
+cp -R Localization/*.lproj "$APP/Contents/Resources/"
 
 swiftc -O -swift-version 5 -parse-as-library \
   -target arm64-apple-macos26.0 \
@@ -19,6 +21,8 @@ cat > "$APP/Contents/Info.plist" <<'PLIST'
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+  <key>CFBundleDevelopmentRegion</key><string>en</string>
+  <key>CFBundleLocalizations</key><array><string>en</string><string>ja</string></array>
   <key>CFBundleExecutable</key><string>MemoryLens</string>
   <key>CFBundleIconFile</key><string>AppIcon</string>
   <key>CFBundleIdentifier</key><string>local.foundry.MemoryLens</string>

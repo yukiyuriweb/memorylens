@@ -1,0 +1,31 @@
+/* Memory pressure */
+"Normal" = "正常";
+"Warning" = "警告";
+"Critical" = "危険";
+"Memory pressure" = "メモリプレッシャー";
+
+/* Header */
+"Remaining" = "残り";
+"Physical memory %@" = "物理メモリ %@";
+
+/* Legend */
+"Wired" = "確保";
+"Compressed" = "圧縮";
+"Cache" = "キャッシュ";
+
+/* Breakdown */
+"Memory Used" = "使用済み";
+"App Memory" = "App メモリ";
+"Wired Memory" = "確保されている";
+"Cached Files" = "キャッシュ";
+"Free" = "空き";
+"Swap Used" = "スワップ";
+
+/* Apps */
+"Apps using the most memory" = "メモリを多く使っているアプリ";
+"Processes running as root are not counted." = "root 権限で動くシステムプロセスは集計に含みません。";
+"Quit" = "終了";
+"Quit %@" = "%@ を終了";
+
+/* Footer */
+"Activity Monitor" = "アクティビティモニタ";

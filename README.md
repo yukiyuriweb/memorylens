@@ -11,7 +11,7 @@ Memory cleaner apps make the “free” number go up by flushing caches or pushi
 - Hover over an app to quit it; apps with unsaved documents still ask first
 - Written in Swift and SwiftUI with Liquid Glass — no Electron, no dependencies
 
-The interface is in Japanese. Processes running as root are not counted in the app list, because their memory cannot be read without privileges.
+The interface is in English and Japanese, following the system language. Processes running as root are not counted in the app list, because their memory cannot be read without privileges.
 
 ## Requirements
 

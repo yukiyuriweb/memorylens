@@ -88,14 +88,14 @@ struct HeaderCard: View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(alignment: .firstTextBaseline) {
                 VStack(alignment: .leading, spacing: 0) {
-                    Text("残り")
+                    Text("Remaining")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                     Text(formatBytes(model.remaining))
                         .font(.system(size: 34, weight: .semibold, design: .rounded))
                         .monospacedDigit()
                         .contentTransition(.numericText())
-                    Text("物理メモリ \(formatBytes(s.total))")
+                    Text("Physical memory \(formatBytes(s.total))")
                         .font(.caption2)
                         .foregroundStyle(.secondary)
                 }
@@ -107,9 +107,9 @@ struct HeaderCard: View {
 
             HStack(spacing: 12) {
                 LegendDot(color: .appMem, title: "App")
-                LegendDot(color: .wiredMem, title: "確保")
-                LegendDot(color: .compressedMem, title: "圧縮")
-                LegendDot(color: .cachedMem, title: "キャッシュ")
+                LegendDot(color: .wiredMem, title: "Wired")
+                LegendDot(color: .compressedMem, title: "Compressed")
+                LegendDot(color: .cachedMem, title: "Cache")
             }
         }
         .padding(16)
@@ -129,13 +129,13 @@ struct PressureBadge: View {
             .padding(.horizontal, 12)
             .padding(.vertical, 6)
             .glassEffect(.regular.tint(level.color.opacity(0.7)), in: .capsule)
-            .help("メモリプレッシャー")
+            .help("Memory pressure")
     }
 }
 
 struct LegendDot: View {
     let color: Color
-    let title: String
+    let title: LocalizedStringKey
 
     var body: some View {
         HStack(spacing: 4) {
@@ -180,19 +180,19 @@ struct BreakdownCard: View {
         let s = system
         Grid(horizontalSpacing: 28, verticalSpacing: 8) {
             GridRow {
-                StatCell(title: "使用済み", bytes: s.used, color: .primary)
-                StatCell(title: "App メモリ", bytes: s.app, color: .appMem)
+                StatCell(title: "Memory Used", bytes: s.used, color: .primary)
+                StatCell(title: "App Memory", bytes: s.app, color: .appMem)
             }
             GridRow {
-                StatCell(title: "確保されている", bytes: s.wired, color: .wiredMem)
-                StatCell(title: "圧縮", bytes: s.compressed, color: .compressedMem)
+                StatCell(title: "Wired Memory", bytes: s.wired, color: .wiredMem)
+                StatCell(title: "Compressed", bytes: s.compressed, color: .compressedMem)
             }
             GridRow {
-                StatCell(title: "キャッシュ", bytes: s.cachedFiles, color: .cachedMem)
-                StatCell(title: "空き", bytes: s.free, color: .secondary)
+                StatCell(title: "Cached Files", bytes: s.cachedFiles, color: .cachedMem)
+                StatCell(title: "Free", bytes: s.free, color: .secondary)
             }
             GridRow {
-                StatCell(title: "スワップ", bytes: s.swapUsed, color: .secondary)
+                StatCell(title: "Swap Used", bytes: s.swapUsed, color: .secondary)
                 Color.clear.gridCellUnsizedAxes([.horizontal, .vertical])
             }
         }
@@ -203,7 +203,7 @@ struct BreakdownCard: View {
 }
 
 struct StatCell: View {
-    let title: String
+    let title: LocalizedStringKey
     let bytes: UInt64
     let color: Color
 
@@ -227,7 +227,7 @@ struct AppsCard: View {
     var body: some View {
         let maxBytes = Double(apps.first?.footprint ?? 1)
         VStack(alignment: .leading, spacing: 2) {
-            Text("メモリを多く使っているアプリ")
+            Text("Apps using the most memory")
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(.secondary)
                 .padding(.horizontal, 8)
@@ -237,7 +237,7 @@ struct AppsCard: View {
                 AppRow(app: app, ratio: Double(app.footprint) / max(maxBytes, 1))
             }
 
-            Text("root 権限で動くシステムプロセスは集計に含みません。")
+            Text("Processes running as root are not counted.")
                 .font(.caption2)
                 .foregroundStyle(.tertiary)
                 .padding(.horizontal, 8)
@@ -298,13 +298,13 @@ struct AppRow: View {
                 Button {
                     running.terminate()
                 } label: {
-                    Label("終了", systemImage: "xmark")
+                    Label("Quit", systemImage: "xmark")
                         .labelStyle(.iconOnly)
                         .font(.caption.weight(.bold))
                 }
                 .buttonStyle(.glass)
                 .controlSize(.small)
-                .help("\(app.name) を終了")
+                .help("Quit \(app.name)")
                 .transition(.opacity.combined(with: .scale))
             } else {
                 Text(formatBytes(app.footprint))
@@ -330,13 +330,13 @@ struct Footer: View {
             Button {
                 NSWorkspace.shared.open(URL(fileURLWithPath: "/System/Applications/Utilities/Activity Monitor.app"))
             } label: {
-                Label("アクティビティモニタ", systemImage: "waveform.path.ecg")
+                Label("Activity Monitor", systemImage: "waveform.path.ecg")
             }
             Spacer()
             Button {
                 NSApp.terminate(nil)
             } label: {
-                Label("終了", systemImage: "power")
+                Label("Quit", systemImage: "power")
             }
         }
         .buttonStyle(.glass)
