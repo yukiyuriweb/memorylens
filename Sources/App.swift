@@ -28,7 +28,7 @@ final class Model: ObservableObject {
         }
     }
 
-    /// 物理メモリ − 使用済み（空き + キャッシュされたファイルなど、すぐ使える分）
+    /// Physical memory minus used: free, cached files and anything else available right away
     var remaining: UInt64 { system.total - min(system.total, system.used) }
 
     var remainingText: String {
@@ -41,7 +41,7 @@ final class Model: ObservableObject {
     }
 }
 
-// MARK: - 色
+// MARK: - Colors
 
 extension Color {
     static let appMem = Color.blue
@@ -60,7 +60,7 @@ extension PressureLevel {
     }
 }
 
-// MARK: - 画面
+// MARK: - Views
 
 struct ContentView: View {
     @ObservedObject var model: Model
@@ -79,7 +79,7 @@ struct ContentView: View {
     }
 }
 
-/// 残り量・プレッシャー・内訳の帯
+/// Remaining memory, pressure and the breakdown bar
 struct HeaderCard: View {
     @ObservedObject var model: Model
 
@@ -145,7 +145,7 @@ struct LegendDot: View {
     }
 }
 
-/// 物理メモリの内訳を 1 本の帯で表示
+/// The physical memory breakdown as a single bar
 struct UsageBar: View {
     let system: SystemMemory
 
@@ -172,7 +172,7 @@ struct UsageBar: View {
     }
 }
 
-/// 数値の内訳（2 列のタイル）
+/// The breakdown in numbers, as two columns of tiles
 struct BreakdownCard: View {
     let system: SystemMemory
 
@@ -220,7 +220,7 @@ struct StatCell: View {
     }
 }
 
-/// メモリを多く使っているアプリ
+/// The apps using the most memory
 struct AppsCard: View {
     let apps: [AppUsage]
 
@@ -280,7 +280,7 @@ struct AppRow: View {
                         Text("×\(app.processCount)").font(.caption2).foregroundStyle(.tertiary)
                     }
                 }
-                // 最大のアプリを基準にした相対的な量
+                // Relative to the app using the most
                 GeometryReader { geo in
                     ZStack(alignment: .leading) {
                         Capsule().fill(.primary.opacity(0.08))

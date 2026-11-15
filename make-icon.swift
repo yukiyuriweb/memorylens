@@ -1,11 +1,11 @@
-// アプリアイコン生成: swift make-icon.swift
-// Resources/AppIcon.icns を作る。メモリの内訳と同じ 4 色の棒グラフを、ガラスのレンズで覗く図柄。
+// Generates the app icon: swift make-icon.swift
+// Writes Resources/AppIcon.icns: a bar chart in the four memory breakdown colors, seen through a glass lens.
 import AppKit
 
 let canvas: CGFloat = 1024
 
 func drawIcon() {
-    // 本体（macOS のアイコン規格: 1024 のキャンバスに 824 の角丸）
+    // Body (macOS icon grid: an 824 rounded square on a 1024 canvas)
     let body = NSRect(x: 100, y: 100, width: 824, height: 824)
     let bodyPath = NSBezierPath(roundedRect: body, xRadius: 185, yRadius: 185)
 
@@ -26,7 +26,7 @@ func drawIcon() {
     NSGraphicsContext.saveGraphicsState()
     bodyPath.addClip()
 
-    // 棒グラフ（App・確保・圧縮・キャッシュ）
+    // Bar chart (App, Wired, Compressed, Cache)
     func drawBars() {
         let bars: [(CGFloat, NSColor)] = [
             (420, .systemBlue), (290, .systemOrange), (220, .systemPurple), (340, .systemTeal),
@@ -40,7 +40,7 @@ func drawIcon() {
     }
     drawBars()
 
-    // レンズ（柄 + 拡大された棒 + ガラス + 縁）。柄は右下へ
+    // Lens (handle, magnified bars, glass, rim), with the handle pointing down-right
     let center = NSPoint(x: 455, y: 545)
     let r: CGFloat = 190
     let handle = NSBezierPath()
@@ -72,7 +72,7 @@ func drawIcon() {
     NSColor.white.setStroke()
     lens.stroke()
 
-    // レンズの映り込み
+    // Reflection on the lens
     let glint = NSBezierPath()
     glint.appendArc(withCenter: center, radius: r - 62, startAngle: 105, endAngle: 160)
     glint.lineWidth = 22

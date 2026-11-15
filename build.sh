@@ -1,7 +1,7 @@
 #!/bin/zsh
-# swiftc で直接ビルドして build/MemoryLens.app を作る
-#   ./build.sh            ビルドのみ
-#   ./build.sh --install  ビルドして ~/Applications に入れ、起動し直す
+# Builds build/MemoryLens.app directly with swiftc
+#   ./build.sh            build only
+#   ./build.sh --install  also copy it to ~/Applications and relaunch it
 set -euo pipefail
 cd "$(dirname "$0")"
 

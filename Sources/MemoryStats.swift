@@ -21,7 +21,7 @@ enum PressureLevel: Int32 {
     }
 }
 
-/// アクティビティモニタの「メモリ」タブと同じ区分
+/// The same categories as Activity Monitor's Memory tab
 struct SystemMemory {
     var total: UInt64 = 0
     var app: UInt64 = 0
@@ -36,9 +36,9 @@ struct SystemMemory {
 }
 
 struct AppUsage: Identifiable {
-    let id: String          // .app のパス、またはプロセス名
+    let id: String          // Path of the .app, or the process name
     let name: String
-    let footprint: UInt64   // phys_footprint の合計（アクティビティモニタの「メモリ」列に相当）
+    let footprint: UInt64   // Sum of phys_footprint (Activity Monitor's Memory column)
     let processCount: Int
     let runningApp: NSRunningApplication?
 }
@@ -76,7 +76,7 @@ enum MemoryReader {
         return m
     }
 
-    /// 全プロセスの使用量を、属する .app 単位でまとめる（Chrome のヘルパーなども本体に合算）
+    /// Memory of every process, grouped by the .app it belongs to (browser helpers count towards the browser)
     static func topApps(limit: Int) -> [AppUsage] {
         let n = proc_listpids(UInt32(PROC_ALL_PIDS), 0, nil, 0)
         guard n > 0 else { return [] }
@@ -94,7 +94,7 @@ enum MemoryReader {
                     proc_pid_rusage(pid, RUSAGE_INFO_V4, $0)
                 }
             }
-            guard r == 0 else { continue }  // root のプロセスなどは権限がなく読めない
+            guard r == 0 else { continue }  // Root processes and the like can't be read without privileges
 
             let len = proc_pidpath(pid, &pathBuf, UInt32(pathBuf.count))
             let path = len > 0 ? String(cString: pathBuf) : ""
@@ -117,7 +117,7 @@ enum MemoryReader {
             }
     }
 
-    /// パスの中で最も外側の .app を探す
+    /// Finds the outermost .app in the path
     private static func groupKey(for path: String, pid: pid_t) -> (String, String) {
         if let range = path.range(of: ".app/") {
             let appPath = String(path[..<range.lowerBound]) + ".app"
