@@ -1,3 +1,4 @@
+import ServiceManagement
 import SwiftUI
 
 @main
@@ -66,13 +67,11 @@ struct ContentView: View {
     @ObservedObject var model: Model
 
     var body: some View {
-        GlassEffectContainer(spacing: 10) {
-            VStack(spacing: 10) {
-                HeaderCard(model: model)
-                BreakdownCard(system: model.system)
-                AppsCard(apps: model.apps)
-                Footer()
-            }
+        VStack(spacing: 10) {
+            HeaderCard(model: model)
+            BreakdownCard(system: model.system)
+            AppsCard(apps: model.apps)
+            Footer()
         }
         .padding(12)
         .frame(width: 360)
@@ -328,6 +327,8 @@ struct AppRow: View {
 }
 
 struct Footer: View {
+    @State private var openAtLogin = SMAppService.mainApp.status == .enabled
+
     var body: some View {
         HStack {
             Button {
@@ -336,11 +337,25 @@ struct Footer: View {
                 Label("Activity Monitor", systemImage: "waveform.path.ecg")
             }
             Spacer()
-            Button {
-                NSApp.terminate(nil)
+            Menu {
+                Toggle("Open at Login", isOn: Binding(
+                    get: { openAtLogin },
+                    set: { on in
+                        do {
+                            if on { try SMAppService.mainApp.register() } else { try SMAppService.mainApp.unregister() }
+                        } catch {
+                            NSAlert(error: error).runModal()
+                        }
+                        openAtLogin = SMAppService.mainApp.status == .enabled
+                    }))
+                Divider()
+                Button("Quit MemoryLens") { NSApp.terminate(nil) }
             } label: {
-                Label("Quit", systemImage: "power")
+                Label("More", systemImage: "ellipsis")
             }
+            .labelStyle(.iconOnly)
+            .menuIndicator(.hidden)
+            .fixedSize()
         }
         .buttonStyle(.glass)
         .controlSize(.regular)
