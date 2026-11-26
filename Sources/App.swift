@@ -67,13 +67,11 @@ struct ContentView: View {
     @ObservedObject var model: Model
 
     var body: some View {
-        GlassEffectContainer(spacing: 10) {
-            VStack(spacing: 10) {
-                HeaderCard(model: model)
-                BreakdownCard(system: model.system)
-                AppsCard(apps: model.apps)
-                Footer()
-            }
+        VStack(spacing: 10) {
+            HeaderCard(model: model)
+            BreakdownCard(system: model.system)
+            AppsCard(apps: model.apps)
+            Footer()
         }
         .padding(12)
         .frame(width: 360)
